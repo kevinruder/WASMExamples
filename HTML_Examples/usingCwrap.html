@@ -1,0 +1,23 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Assembly Demo</title>
+</head>
+<body>
+    <h1>Web Assembly Demo</h1>
+    <script src="import.js"></script>
+    <script>
+         const greet = cwrap("greet","string",["string"])
+
+         const getNumber = () => {
+             return 55;
+         };
+
+         const getString = () =>{
+             return "Kevin is Cool";
+         }
+
+    </script>
+</body>
+</html>

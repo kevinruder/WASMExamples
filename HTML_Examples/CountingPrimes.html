@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Assembly Demo</title>
+</head>
+<body>
+    <h1>Web Assembly Demo</h1>
+    <script src="primes.js"></script>
+    <script>
+
+        const primes = 200000;
+
+        const isPrime = (num) => {
+            for(let i=2; i < num; i++){
+                if(num % i === 0) return false
+            }
+            return num !== 1 && num !== 0
+        }
+
+        const checkPrimes = (num) => {
+                let count = 0;
+                for(let i = 0; i< num; i++){
+                    if(isPrime(i)) count++
+                }
+                return count;
+        }
+
+        
+
+        Module['onRuntimeInitialized'] = () => {
+            console.log('Runtime Ready');
+
+
+            let jsStart = performance.now();
+            let jsPrimes = checkPrimes(primes)
+            console.log('JS', jsPrimes, Math.round(performance.now() - jsStart)/1000);
+
+            let CStart = performance.now();
+            let CPrimes = _checkPrimes(primes);
+            console.log('C', CPrimes, Math.round(performance.now() - CStart)/1000);
+            
+        }
+
+    </script>
+</body>
+</html>

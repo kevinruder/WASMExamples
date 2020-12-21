@@ -1,0 +1,14 @@
+{
+  "name": "getting-started-with-wasm",
+  "version": "1.0.0",
+  "description": "Learning to code wasm",
+  "main": "server.js",
+  "author": "Kevin Ruder",
+  "license": "MIT",
+  "scripts": {
+    "start":"node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

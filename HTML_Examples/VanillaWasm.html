@@ -1,0 +1,46 @@
+<!-- Example of using Vanilla WASM without Emscripten -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Assembly Demo</title>
+</head>
+<body>
+    <h1>Web Assembly Demo</h1>
+    <script>
+
+        //Create Web Assemmly Memory to Pass to wasm
+        const wasmMemory = new WebAssembly.Memory({initial:2})
+
+        //Read a string out of Web Assembly memory
+        const readMemStr = (offset, length) => {
+            const strBuffer = new Uint8Array(wasmMemory.buffer, offset, length)
+            const str = new TextDecoder().decode(strBuffer)
+            
+            // notify and make use of new string
+            window.dispatchEvent( new CustomEvent('wasmValue',{detail:str}))
+        }
+
+        window.addEventListener('wasmValue', str => {
+            console.log('Received a new string from C: ', str.detail )
+        })
+
+        const imports = {
+                env:{
+                    numLog: console.log,
+                    stringLog: readMemStr,
+                    memory: wasmMemory
+                }
+            }
+
+
+        WebAssembly.instantiateStreaming(fetch('/program.wasm'), imports)
+        .then(wasm => {
+
+            console.log('Wasm Ready')
+            window.wasm = wasm
+
+        })
+    </script>
+</body>
+</html>
